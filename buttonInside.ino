@@ -2,70 +2,54 @@ void readElevatorButtonInside(){
 if(digitalRead(buttonToFloor1)== HIGH){
   buttonInsideSelected = 1;
   callElevatorButtonInside();
-} else if(digitalRead(buttonToFloor2)==HIGH){
+  }else if(digitalRead(buttonToFloor2)==HIGH){
   buttonInsideSelected = 2;
   callElevatorButtonInside();
-} else if(digitalRead(buttonToFloor3)==HIGH){
+  }else if(digitalRead(buttonToFloor3)==HIGH){
   buttonInsideSelected = 3;
   callElevatorButtonInside();
-} else if(digitalRead(buttonDoor)==HIGH){
+  }else if(digitalRead(buttonDoor)==HIGH){
   buttonInsideSelected = 4;
   callElevatorButtonInside();
-}
+  }
 }
 
 
   //////////////        start  Motor   7//////////////////////
-void start_motor(){
 
-  if(digitalRead(buttonToFloor2)==HIGH){
-     
-         digitalWrite(5, HIGH);
-         analogWrite(7, 100);
-         delay(12); 
-       
+void stepmotorOpen(int stepDelay){
+for(i=1; i <= 50; i++){
+  digitalWrite(APPin, LOW);
+  digitalWrite(BPPin, HIGH);
+  delay(stepDelay);
+  digitalWrite(APPin, LOW);
+  digitalWrite(BPPin, LOW);
+  delay(stepDelay);
+  digitalWrite(APPin, HIGH);
+  digitalWrite(BPPin, LOW);
+  delay(stepDelay);
+  digitalWrite(APPin, HIGH);
+  digitalWrite(BPPin, HIGH);
+  delay(stepDelay);
   }
-  
-}
+} 
 
-void startmotoren(){
-
-if(digitalRead(buttonDoor)==HIGH){
-     Serial.println("clockwise");
-     //myStepper.setSpeed(20);
-     myStepper.step(100);
-     delay(50);
-         }
-
-}
-
-
-void step_motor(){
-
-  if(digitalRead(buttonToFloor3)==HIGH){
-    
-     Serial.println("clockwise");
-     //myStepper.setSpeed(20);
-     Stepper myStepper(200,30,31,32,33);
-     myStepper.step(100);
-     delay(50);
-    
+void stepmotorClose(int stepDelay){
+for(i=1; i <= 50; i++){
+  digitalWrite(APPin, HIGH);
+  digitalWrite(BPPin, HIGH);
+  delay(stepDelay);
+  digitalWrite(APPin, HIGH);
+  digitalWrite(BPPin, LOW);
+  delay(stepDelay);
+  digitalWrite(APPin, LOW);
+  digitalWrite(BPPin, LOW);
+  delay(stepDelay);
+  digitalWrite(APPin, LOW);
+  digitalWrite(BPPin, HIGH);
+  delay(stepDelay);
   }
-}
-  
-
-
-
-
-
-/*void startda(){
-  for (i = 200; i > 1; i--){
-digitalWrite(6, HIGH);
-analogWrite(7, i);
-delay(12);
-}
-}
-*/
+} 
 
 void callElevatorButtonInside(){
     switch(buttonInsideSelected){
@@ -104,28 +88,5 @@ void callElevatorButtonInside(){
     default:
       delay(10); 
       break;
-
   }
 }
-
-
-// -----------------------------------------------------------------------------------------------------------
-
-/*
-void loopenloop() {
-
-  if(currentFloor < toFloor){
-  Serial.println("Floor up");
-  myStepper.step(stepsPerRevolution);
-  delay(500);
-  }
-
-  else if(currentFloor == toFloor){
-    //ingenting
-    }
-    else if (currentFloor > toFloor)
-    Serial.println("Floor dwon");
-  myStepper.step(-stepsPerRevolution);
-  delay(500);
-}
-*/ 
