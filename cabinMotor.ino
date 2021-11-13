@@ -1,67 +1,55 @@
-
-
-
 void moveElevator(int toFloor) {
-// initialize the stepper library on pins 8 through 11:
   if (currentFloor < toFloor) {
-   Serial.print("Motor moving up\n");
-//     if(digitalRead(buttonToFloor2)==HIGH){
-//     buttonInsideSelected = 2;
-//     callElevatorButtonInside();
-//     
-//     for(i = 1; i < 200; i++){
-//         digitalWrite(6, HIGH);
-//         analogWrite(7, i);
-//         delay(12); 
-//         if(i==199){
-//           digitalWrite(6, LOW);
-//           analogWrite(7, 0);
-//         }
-//     }
-//   }
-
-  } else if (currentFloor == toFloor) {
+    Serial.print("Motor moving up\n");
+    lcd.setCursor(0, 1);
+    lcd.print("Motor moving up");
+    moveUp();
+    delay(2000);
+    lcd.setCursor(0,0);
+    lcd.print("Arrived           ");
+    openDoor();
+    delay(2000);
+    closeDoor();
+    lcd.clear();
+     
+  }else if (currentFloor == toFloor){
     if (isDoorOpen == false) {
-      
-       Serial.print("Same floor, opening door\n");
-      delay(1000);
-      setDoorTimer();
-    } else if (isDoorOpen == true){
-      Serial.print("Same floor\n");
-      setDoorTimer();
-    }
-  } else if (currentFloor > toFloor) {
+    Serial.print("Same floor");  
+    lcd.setCursor(0,0);
+    lcd.print("Same floor            ");
+    openDoor();
+    delay(2000);
+    closeDoor();
+    lcd.clear();
+    }  
+  }else if (currentFloor > toFloor) {
     Serial.print("Motor moving down\n");
-//     if(digitalRead(buttonToFloor1)==HIGH){
-//     buttonInsideSelected = 1;
-//     callElevatorButtonInside();
-//     
-//     for(i = 1; i < 200; i--){
-//         digitalWrite(5, HIGH);
-//         analogWrite(7, i);
-//         delay(12); 
-//         if(i==2){
-//           digitalWrite(6, LOW);
-//           analogWrite(7, 0);
-//         }
-//     }
-//  }
-    
+    lcd.setCursor(0, 1);
+    lcd.print("Motor down");
+    moveDown();
+    delay(2000);
+    lcd.setCursor(0,0);
+    lcd.print("Arrived           ");
+    openDoor();
+    delay(2000);
+    closeDoor();
+    lcd.clear();
   }
 }
 
-void setDoorTimer(){
-      isDoorOpen = true;
-      currentMillis = millis();
-      timerCloseDoor();
-}
-void timerCloseDoor(){
-  if (currentMillis >= interval) {
-        Serial.print("Closing door TIMER\n");
-        isDoorOpen = false;
-        currentMillis = 0;
+
+void moveUp(){
+  digitalWrite(DCEPin,HIGH);
+  digitalWrite(DCDPin,HIGH);
+  analogWrite(DCPPin,200);
+  delay(4000);
+  digitalWrite(DCEPin,LOW);
 }
 
-
-
+void moveDown(){
+  digitalWrite(DCEPin,HIGH);
+  digitalWrite(DCDPin,HIGH);
+  analogWrite(DCPPin,50);
+  delay(4000);
+  digitalWrite(DCEPin,LOW);
 }
